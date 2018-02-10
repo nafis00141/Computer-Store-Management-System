@@ -8,6 +8,7 @@ begin
 	
 	IF res = 1 then
 		dbms_output.put_line('Sold');
+		
 	ELSIF res = 2 then
 		dbms_output.put_line('Nothing to sell');
 	ELSE

@@ -1,6 +1,6 @@
 set serveroutput on;
 declare
-	pro_code product_info.product_code%TYPE := 1208;
+	pro_code product_info.product_code%TYPE := 1205;
 	res number;
 begin
 	res := add_to_cart(pro_code);

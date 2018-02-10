@@ -144,8 +144,6 @@ BEGIN
 	   
     end loop;
 	
-	show_recept(purch_id);
-	
 	empty_cart;
 	
 	yes := 1;
@@ -160,44 +158,4 @@ BEGIN
 END sell;
 /
 
-
-create or replace procedure show_recept(purch_id in purchase.purchase_id%TYPE)
-		IS
-	cursor ca is select product_info.product_code,product_info.pid,product.name,product_info.buyprice,product_info.sellprice,product.brand as product_brand,supplier.name as Supplier_name
-	from purchase,product_info,supplier,product where product_info.product_code = purchase.product_code and product_info.sid = supplier.sid 
-	and purchase.pid = product.pid and purchase.purchase_id = purch_id;
-	
-	buy_price purchase_history.buyprice%TYPE;
-	sold_price purchase_history.soldprice%TYPE;
-	purch_type purchase_history.purchase_type%TYPE;
-	e_name employee.name%TYPE;
-	cus_name customer.name%TYPE;
-begin
-	
-	
-	select purchase_history.buyprice,purchase_history.soldprice,purchase_history.purchase_type,employee.name,customer.name into
-	buy_price,sold_price,purch_type,e_name,cus_name from purchase_history,employee,customer where employee.eid = purchase_history.eid 
-	and customer.cid = purchase_history.cid and purchase_history.purchase_id = purch_id;
-	
-	dbms_output.put_line('Recept:                                  Purches ID:' ||to_char(purch_id));
-	dbms_output.put_line('------------------------------------------------------');
-	dbms_output.put_line('code     id     name     sellprice   brand    supplier');
-	dbms_output.put_line('------------------------------------------------------');
-	for r in ca loop
-       dbms_output.put_line(to_char(r.product_code)|| '     ' || to_char(r.pid) || '      ' || to_char(r.name) ||
-	   '     ' || to_char(r.sellprice) || '     ' || to_char(r.product_brand) || '     ' || to_char(r.Supplier_name));
-    end loop;
-	dbms_output.put_line('------------------------------------------------------');
-	dbms_output.put_line('employee: ' ||to_char(e_name) ||'                   customer:' || to_char(cus_name));
-	dbms_output.put_line('                                          TOTAL:' ||to_char(sold_price));
-	
-	
-end show_recept;
-/
-
-/*
-begin
-	show_recept(1);
-end;
-*/
 
