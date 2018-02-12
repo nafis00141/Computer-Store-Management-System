@@ -1,9 +1,9 @@
 set serveroutput on;
 declare
-	pro_code product_info.product_code%TYPE := 1205;
+	pro_code product_info.product_code%TYPE := 1206;
 	res number;
 begin
-	res := add_to_cart(pro_code);
+	res := cart_sell_package.add_to_cart(pro_code);
 	
 	IF res = 1 then
 		dbms_output.put_line('Added to cart');
@@ -13,10 +13,10 @@ begin
 		dbms_output.put_line('Product NOT FOUND');
 	END IF;
 
-	show_cart;
+	cart_sell_package.show_cart;
 	
 	/*
-	res := delete_from_cart(pro_code);
+	res := cart_sell_package.delete_from_cart(pro_code);
 	
 	IF res = 1 then
 		dbms_output.put_line('Deleted');
@@ -26,7 +26,7 @@ begin
 		dbms_output.put_line('Problem');
 	END IF;
 	
-	show_cart;
+	cart_sell_package.show_cart;
 	
 	*/
 	

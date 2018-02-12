@@ -9,12 +9,14 @@ drop table purchase cascade constraints;
 drop table product_info cascade constraints;
 drop table purchase_history cascade constraints;
 drop table temp cascade constraints;
+drop table request cascade constraints;
 
 DROP SEQUENCE product_seq;
 DROP SEQUENCE supplier_seq;
 DROP SEQUENCE customer_seq;
 DROP SEQUENCE employee_seq;
 DROP SEQUENCE purchase_seq;
+DROP SEQUENCE request_seq;
 
 create table product
 (
@@ -106,7 +108,8 @@ END;
 create table log_in_history
 (
 	eid NUMBER,
-	log_time TIMESTAMP default LOCALTIMESTAMP
+	log_time TIMESTAMP default LOCALTIMESTAMP,
+	status number
 );
 
 create table purchase
@@ -138,7 +141,8 @@ create table purchase_history
 	buyprice number,
 	soldprice number,
 	capitalprice number,
-	purchase_type varchar2(20)
+	purchase_type varchar2(20),
+	primary key(purchase_id)
 );
 
 CREATE SEQUENCE purchase_seq START WITH 1;
@@ -161,6 +165,32 @@ create table temp
 	buyprice number,
 	sellprice number
 );
+
+
+create table request
+(
+	rid NUMBER NOT NULL,
+	product_code number,
+	eid_req number,
+	send_to_branch varchar2(20),
+	at_branch varchar2(20),
+	status number,
+	eid_done number,
+	primary key(rid)
+);
+
+CREATE SEQUENCE request_seq START WITH 1;
+
+CREATE OR REPLACE TRIGGER request_id 
+BEFORE INSERT ON request
+FOR EACH ROW
+
+BEGIN
+  SELECT request_seq.NEXTVAL
+  INTO   :new.rid
+  FROM   dual;
+END;
+/
 
 insert into product(name,catagory,brand) values('Nvidia GTX 1050', 'GPU', 'Gigabyte');
 insert into product(name,catagory,brand) values('Nvidia GTX 1060', 'GPU', 'Gigabyte');
@@ -197,13 +227,13 @@ insert into product_info values(1207,2,null,2,32000,36000,'Dhanmondi','old',0);
 insert into product_info values(1208,3,1,null,45500,48500,'kalabagan','new',0);
 insert into product_info values(1209,3,1,null,45500,48500,'Dhanmondi','new',0);
 
-insert into log_in_history (eid) values(2);
-insert into log_in_history (eid) values(3);
+insert into log_in_history (eid,status) values(2,0);
+insert into log_in_history (eid,status) values(3,0);
 
 
 
 
-
+commit;
 
 
 

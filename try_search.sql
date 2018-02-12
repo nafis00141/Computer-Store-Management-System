@@ -6,14 +6,14 @@ declare
 	br product_info.branch%TYPE := 'Dhanmondi';
 begin
 	dbms_output.put_line('search all product');
-	search_all_pro(x);
+	search_package.search_all_pro(x);
 	dbms_output.put_line('search new product');
-	search_con_pro(x,co1);
+	search_package.search_con_pro(x,co1);
 	dbms_output.put_line('search old product');
-	search_con_pro(x,co2);
+	search_package.search_con_pro(x,co2);
 	dbms_output.put_line('search product against branch');
-	search_bran_pro(x,br);
+	search_package.search_bran_pro(x,br);
 	dbms_output.put_line('get all product against branch');
-	get_all_pro_branch(br);
+	search_package.get_all_pro_branch(br);
 end;
 /
